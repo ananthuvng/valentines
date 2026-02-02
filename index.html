@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For You 💗</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+}
+
+/* hearts behind */
+#heartsLayer{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+}
+
+.heart{
+    position:absolute;
+    color:#ff8fb1;
+    font-size:20px;
+    opacity:.5;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float{
+    from{ transform:translateY(100vh); }
+    to{ transform:translateY(-10vh); }
+}
+
+/* card */
+.card{
+    z-index:2;
+    width:380px;
+    background:#fff;
+    border-radius:25px;
+    padding:40px 35px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(255,150,170,.25);
+}
+
+/* fixed gif */
+.gifBox{
+    width:190px;
+    height:190px;
+    margin:0 auto 20px;
+}
+
+.cat{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* text */
+h1{
+    font-size:20px;
+    color:#ff6b9a;
+    margin-bottom:25px;
+}
+
+/* buttons */
+button{
+    padding:10px 24px;
+    margin:8px;
+    border-radius:25px;
+    border:none;
+    font-size:14px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.yes{
+    background:#ff6b9a;
+    color:white;
+}
+
+.no{
+    background:#7c7c7c;
+    color:#ffffff;
+}
+
+/* details */
+.details{
+    margin-top:15px;
+    font-size:14px;
+    color:#ff6b9a;
+    line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div id="heartsLayer"></div>
+
+<div class="card">
+
+    <div class="gifBox">
+        <img id="catImg" class="cat" src="cat1.gif">
+    </div>
+
+    <div id="content"></div>
+
+</div>
+
+<script>
+const content = document.getElementById("content");
+const cat = document.getElementById("catImg");
+const heartsLayer = document.getElementById("heartsLayer");
+
+/* hearts */
+function createHeart(){
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💗";
+    h.style.left=Math.random()*100+"vw";
+    heartsLayer.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+}
+setInterval(createHeart,300);
+
+/* ================= SCREEN 1 ================= */
+function showValentine(){
+content.innerHTML = `
+    <h1>Will you be my Valentine? 💗</h1>
+    <button class="yes" onclick="goToDate()">Yes</button>
+    <button class="no" id="no1">No</button>
+`;
+
+const noBtn = document.getElementById("no1");
+
+/* first screen → run away */
+noBtn.addEventListener("mouseover", ()=>{
+    cat.src="cat2.gif";
+
+    const x=Math.random()*(window.innerWidth-120);
+    const y=Math.random()*(window.innerHeight-80);
+
+    noBtn.style.position="fixed";
+    noBtn.style.left=x+"px";
+    noBtn.style.top=y+"px";
+});
+}
+/* ================= SCREEN 2 ================= */
+function goToDate(){
+
+cat.src="cat4.gif";
+
+content.innerHTML = `
+    <h1>Will you go on a date with me on 28 Feb?<br>
+    <span style="font-size:13px;opacity:.7">(I know it's 2 weeks late from valentines day 😢)</span></h1>
+    <button class="yes" onclick="confirmDate()">Yes 💕</button>
+    <button class="no" id="no2">No</button>
+`;
+
+const noBtn=document.getElementById("no2");
+
+const messages=[
+"Are you sure?",
+"Really sure?",
+"Think again 🥺",
+"Please?",
+"Don't break my heart 💔",
+"Fine… say yes 😭",
+"Pretty please? 🥺",
+"Just this once?",
+"Give me a chance?",
+"I promise it'll be fun!",
+"Don't say nooo 😭",
+"Be nice to me 💕",
+"Pleaseeee?",
+"Come onnnn",
+"Trust me?"
+];
+
+let index = 0;
+let extraZ = 1;
+
+/* second screen → text changes only */
+noBtn.addEventListener("click", ()=>{
+
+    cat.src="cat2.gif";
+
+    // show normal messages first
+    if(index < messages.length){
+        noBtn.innerText = messages[index];
+        index++;
+    }
+    // after messages end → keep adding z forever
+    else{
+        noBtn.innerText = "pl" + "z".repeat(extraZ);
+        extraZ++;
+    }
+});
+
+}
+
+/* ================= FINAL ================= */
+function confirmDate(){
+cat.src="cat3.gif";
+
+content.innerHTML = `
+    <h1>💕Ahmmmm!! 💕</h1>
+    <div class="details">
+        💌 It's a date!<br><br>
+        I will pick you up at 7 PM.<br><br>
+        Can you wear the red dress 💃🏻🥹
+    </div>
+`;
+}
+
+/* start */
+showValentine();
+</script>
+
+</body>
+</html>
